@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from "react";
 
 import {
   BarChart,
@@ -44,9 +45,20 @@ const COLORS = [
 ];
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
   return (
-    <div className="container">
-      <h1>FinSight Dashboard</h1>
+    <div className={darkMode ? "container dark" : "container"}>
+      <div className="navbar">
+        <h1>FinSight Dashboard</h1>
+
+        <button
+          className="toggle-btn"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? "☀️ Light" : "🌙 Dark"}
+        </button>
+      </div>
 
       <div className="cards">
         <div className="card">
@@ -70,8 +82,6 @@ function App() {
         </div>
       </div>
 
-      {/* Category Chart */}
-
       <div className="chart-container">
         <h2>Category Sales</h2>
 
@@ -85,8 +95,6 @@ function App() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-
-      {/* Regional Sales */}
 
       <div className="chart-container">
         <h2>Regional Sales</h2>
@@ -102,7 +110,7 @@ function App() {
             >
               {regionData.map((entry, index) => (
                 <Cell
-                  key={`cell-${index}`}
+                  key={index}
                   fill={COLORS[index % COLORS.length]}
                 />
               ))}
@@ -113,8 +121,6 @@ function App() {
         </ResponsiveContainer>
       </div>
 
-      {/* Forecast Chart */}
-
       <div className="chart-container">
         <h2>Sales Forecast</h2>
 
@@ -124,7 +130,6 @@ function App() {
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
-
             <Line
               type="monotone"
               dataKey="sales"
